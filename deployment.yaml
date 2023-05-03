@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ns-devops-development-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcp
+  template:
+    metadata:
+      labels:
+        app: gcp
+    spec:
+      containers:
+      - name: ns-devops-development-cont
+        image: gcr.io/nsgks-385010/ns-devops-development
+        ports:
+        - containerPort: 5000
+        env:
+          - name: PORT
+            value: "5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "ns-devops-development-service"
+  namespace: "ns-devops-development"
+  labels:
+    app.kubernetes.io/managed-by: "ns-cloud-build-deploy"
+spec:
+  selector:
+    app: "gcp"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: "LoadBalancer"
