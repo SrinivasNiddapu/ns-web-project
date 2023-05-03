@@ -6,3 +6,13 @@ steps:
 # push container image
 - name: "gcr.io/cloud-builders/docker"
   args: ["push",'gcr.io/$PROJECT_ID/ns-devops-development']
+
+  # deploy container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args: 
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/ns-devops-development
+  - --location=asia-south1-a
+  - --cluster=cluster-1
+  - --namespace=ns-devops-development
