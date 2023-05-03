@@ -2,15 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ns-devops-development-pod
+  namespace: "ns-devops-development"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gcp
+      app: ns
   template:
     metadata:
       labels:
-        app: gcp
+        app: ns
     spec:
       containers:
       - name: ns-devops-development-cont
@@ -30,7 +31,7 @@ metadata:
     app.kubernetes.io/managed-by: "ns-cloud-build-deploy"
 spec:
   selector:
-    app: "gcp"
+    app: "ns"
   ports:
     - protocol: TCP
       port: 80
